@@ -6,10 +6,10 @@ class EventDashboard extends Component {
     return (
       <Grid>
         <Grid.Column width={10}>
-          Left side
+          <h2>Left side</h2>
         </Grid.Column>
         <Grid.Column width={6}>
-          Right side
+          <h2>Right side</h2>
         </Grid.Column>
       </Grid>
     )
