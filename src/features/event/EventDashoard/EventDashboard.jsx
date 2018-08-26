@@ -57,14 +57,10 @@ const eventsDashboard = [
 
 
 class EventDashboard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      events: eventsDashboard,
-      isOpen: false,
-    };
-  }
+  state = {
+    events: eventsDashboard,
+    isOpen: false,
+  };
 
   handleFormOpen = () => {
     this.setState({
