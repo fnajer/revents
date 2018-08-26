@@ -32,7 +32,7 @@ class EventForm extends Component {
           <Button type="button">Cancel</Button>
         </Form>
       </Segment>
-    )
+    );
   }
 }
 
