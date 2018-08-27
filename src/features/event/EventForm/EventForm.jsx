@@ -14,10 +14,14 @@ class EventForm extends Component {
     event: emptyEvent,
   }
 
-  componentDidMount() {
-    if (this.props.selectedEvent !== null) {
+  
+
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props.selectedEvent )
+    console.log(nextProps.selectedEvent )
+    if (this.props.selectedEvent !== nextProps.selectedEvent) {
       this.setState({
-        event: this.props.selectedEvent,
+        event: nextProps.selectedEvent || emptyEvent,
       });
     }
   }
