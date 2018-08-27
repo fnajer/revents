@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { Segment, Form, Button } from 'semantic-ui-react';
 
 class EventForm extends Component {
+  onSubmitForm = (event) => {
+    console.log(this.refs.title.value);
+  }
+
   render() {
     const { handleCancel } = this.props;
     return (
@@ -9,7 +13,7 @@ class EventForm extends Component {
         <Form>
           <Form.Field>
             <label>Event Title</label>
-            <input placeholder="First Name" />
+            <input ref="title" placeholder="Event Title" />
           </Form.Field>
           <Form.Field>
             <label>Event Date</label>
