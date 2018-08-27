@@ -14,7 +14,13 @@ class EventForm extends Component {
     event: emptyEvent,
   }
 
-  
+  componentDidMount() {
+    if (this.props.selectedEvent !== null) {
+      this.setState({
+        event: this.props.selectedEvent,
+      });
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
     console.log(this.props.selectedEvent )
@@ -29,7 +35,11 @@ class EventForm extends Component {
   onSubmitForm = (event) => {
     event.preventDefault();
     
-    this.props.handleCreateEvent(this.state.event);
+    if (this.state.event.id) {
+      this.props.handleUpdateEvent(this.state.event);
+    } else {
+      this.props.handleCreateEvent(this.state.event);
+    }
   }
 
   onInputChange = (event) => {
