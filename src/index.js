@@ -25,6 +25,7 @@ let render = () => {
 
 if (module.hot) {
   module.hot.accept('./app/layout/App', () => {
+    console.log(1222);
     setTimeout(render);
   })
 }
