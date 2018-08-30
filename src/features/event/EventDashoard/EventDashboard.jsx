@@ -1,31 +1,35 @@
-import React, { Component } from 'react';
-import { Grid, Button } from 'semantic-ui-react';
-import cuid from 'cuid';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Grid, Button } from "semantic-ui-react";
+import cuid from "cuid";
 
-import EventList from '../EventList/EventList';
-import EventForm from '../EventForm/EventForm';
+import EventList from "../EventList/EventList";
+import EventForm from "../EventForm/EventForm";
+
+const mapState = state => ({
+  events: state.events
+});
 
 class EventDashboard extends Component {
   state = {
-    events: eventsDashboard,
     isOpen: false,
-    selectedEvent: null,
+    selectedEvent: null
   };
 
   handleFormOpen = () => {
     this.setState({
       selectedEvent: null,
-      isOpen: true,
+      isOpen: true
     });
-  }
+  };
 
   handleCancel = () => {
     this.setState({
-      isOpen: false,
+      isOpen: false
     });
-  }
+  };
 
-  handleUpdateEvent = (updatedEvent) => {
+  handleUpdateEvent = updatedEvent => {
     this.setState({
       events: this.state.events.map(event => {
         if (event.id === updatedEvent.id) {
@@ -35,51 +39,66 @@ class EventDashboard extends Component {
         }
       }),
       isOpen: false,
-      selectedEvent: null,
+      selectedEvent: null
     });
-  }
+  };
 
-  handleOpenEvent = (eventToUpdate) => () => {
+  handleOpenEvent = eventToUpdate => () => {
     this.setState({
       selectedEvent: eventToUpdate,
-      isOpen: true,
+      isOpen: true
     });
-  }
+  };
 
-  handleCreateEvent = (newEvent) => {
+  handleCreateEvent = newEvent => {
     newEvent.id = cuid();
-    newEvent.hostPhotoURL = '/assets/user.png';
-    
+    newEvent.hostPhotoURL = "/assets/user.png";
+
     const updatedEvents = [...this.state.events, newEvent];
     this.setState({
       events: updatedEvents,
-      isOpen: false,
+      isOpen: false
     });
-  }
+  };
 
-  handleDeleteEvent = (eventId) => () => {
-    const updatedEvents = this.state.events.filter(event => event.id !== eventId);
+  handleDeleteEvent = eventId => () => {
+    const updatedEvents = this.state.events.filter(
+      event => event.id !== eventId
+    );
     this.setState({
-      events: updatedEvents,
+      events: updatedEvents
     });
-  }
+  };
 
   render() {
+    const { events } = this.props;
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventList deleteEvent={this.handleDeleteEvent} onOpenEvent={this.handleOpenEvent} events={this.state.events} />
+          <EventList
+            deleteEvent={this.handleDeleteEvent}
+            onOpenEvent={this.handleOpenEvent}
+            events={events}
+          />
         </Grid.Column>
         <Grid.Column width={6}>
-          <Button onClick={this.handleFormOpen} positive content="Create Event" />
-          {
-            this.state.isOpen &&
-            <EventForm handleUpdateEvent={this.handleUpdateEvent} selectedEvent={this.state.selectedEvent} handleCreateEvent={this.handleCreateEvent} handleCancel={this.handleCancel} />
-          }
+          <Button
+            onClick={this.handleFormOpen}
+            positive
+            content="Create Event"
+          />
+          {this.state.isOpen && (
+            <EventForm
+              handleUpdateEvent={this.handleUpdateEvent}
+              selectedEvent={this.state.selectedEvent}
+              handleCreateEvent={this.handleCreateEvent}
+              handleCancel={this.handleCancel}
+            />
+          )}
         </Grid.Column>
       </Grid>
-    )
+    );
   }
 }
 
-export default EventDashboard;
+export default connect(mapState)(EventDashboard);
