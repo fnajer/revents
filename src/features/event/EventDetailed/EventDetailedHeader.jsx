@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Segment, Item, Header, Image, Button } from 'semantic-ui-react';
 
 const eventImageStyle = {
@@ -14,43 +14,41 @@ const eventImageTextStyle = {
     color: 'white'
 };
 
-export class EventDetailedHeader extends Component {
-  render() {
-    return (
-      <Segment.Group>
-        <Segment basic attached="top" style={{ padding: '0' }}>
-          <Image src="/assets/categoryImages/drinks.jpg" fluid style={eventImageStyle} />
-  
-          <Segment basic style={eventImageTextStyle}>
-            <Item.Group>
-              <Item>
-                <Item.Content>
-                  <Header
-                    size="huge"
-                    content="Event Title"
-                    style={{ color: 'white' }}
-                  />
-                  <p>Event Date</p>
-                  <p>
-                    Hosted by <strong>Hosted by</strong>
-                  </p>
-                </Item.Content>
-              </Item>
-            </Item.Group>
-          </Segment>
+const EventDetailedHeader = () => {
+  return (
+    <Segment.Group>
+      <Segment basic attached="top" style={{ padding: '0' }}>
+        <Image src="/assets/categoryImages/drinks.jpg" fluid style={eventImageStyle} />
+
+        <Segment basic style={eventImageTextStyle}>
+          <Item.Group>
+            <Item>
+              <Item.Content>
+                <Header
+                  size="huge"
+                  content="Event Title"
+                  style={{ color: 'white' }}
+                />
+                <p>Event Date</p>
+                <p>
+                  Hosted by <strong>Hosted by</strong>
+                </p>
+              </Item.Content>
+            </Item>
+          </Item.Group>
         </Segment>
-  
-        <Segment attached="bottom">
-          <Button>Cancel My Place</Button>
-          <Button color="teal">JOIN THIS EVENT</Button>
-  
-          <Button color="orange" floated="right">
-            Manage Event
-          </Button>
-        </Segment>
-      </Segment.Group>
-    )
-  }
+      </Segment>
+
+      <Segment attached="bottom">
+        <Button>Cancel My Place</Button>
+        <Button color="teal">JOIN THIS EVENT</Button>
+
+        <Button color="orange" floated="right">
+          Manage Event
+        </Button>
+      </Segment>
+    </Segment.Group>
+  )
 }
 
 export default EventDetailedHeader
