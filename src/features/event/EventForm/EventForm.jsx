@@ -6,6 +6,8 @@ import cuid from 'cuid';
 
 import { createEvent, updateEvent } from '../eventsActions';
 
+import TextInput from '../../../app/common/form/TextInput';
+
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
 
@@ -72,7 +74,7 @@ class EventForm extends Component {
             <label>Event Title</label>
             <input name="title" onChange={this.onInputChange} value={event.title} placeholder="Event Title" />
           </Form.Field> */}
-          <Field name="title" type="text" component="input" placeholder="Event Title" />
+          <Field name="title" type="text" component={TextInput} placeholder="Event Title" />
           <Form.Field>
             <label>Event Date</label>
             <input name="date" onChange={this.onInputChange} value={event.date} type="date" placeholder="Event Date" />
