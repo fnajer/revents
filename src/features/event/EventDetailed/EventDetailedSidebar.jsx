@@ -19,7 +19,7 @@ const EventDetailedSidebar = ({ attendees }) => {
         <List relaxed divided>
           {
             attendees.map(attendee => (
-              <Item style={{ position: 'relative' }}>
+              <Item key={attendee.id} style={{ position: 'relative' }}>
                 {
                   isHost &&
                   <Label
