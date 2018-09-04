@@ -11,8 +11,10 @@ const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
 
   let event = {};
-  event = state.events.filter(event => event.id === eventId)[0];
-
+  if (eventId && state.events.length > 0) {
+    event = state.events.filter(event => event.id === eventId)[0];
+  }
+  
   return {
     event,
   };
