@@ -13,20 +13,14 @@ import SelectInput from "../../../app/common/form/SelectInput";
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
 
-  let event = {
-    title: "",
-    date: "",
-    city: "",
-    venue: "",
-    hostedBy: ""
-  };
+  let event = {};
 
   if (eventId && state.events.length > 0) {
     event = state.events.filter(event => event.id === eventId)[0];
   }
 
   return {
-    event
+    initialValues: event
   };
 };
 
@@ -45,22 +39,23 @@ const category = [
 ];
 
 class EventForm extends Component {
-  onSubmitForm = event => {
-    event.preventDefault();
+  onSubmitForm = values => {
+    console.log(values)
 
-    if (this.state.event.id) {
-      this.props.updateEvent(this.state.event);
+    if (this.props.initialValues.id) {
+      this.props.updateEvent(values);
       this.props.history.goBack();
     } else {
       const newEvent = {
-        ...this.state.event,
+        ...values,
         id: cuid(),
-        hostPhotoURL: "/assets/user.png"
+        hostPhotoURL: "/assets/user.png",
+        hostedBy: 'Bob',
       };
 
       this.props.createEvent(newEvent);
       this.props.history.push("/events");
-    }
+   }
   };
 
   render() {
@@ -68,7 +63,7 @@ class EventForm extends Component {
       <Grid>
         <Grid.Column width={10}>
           <Segment>
-            <Form onSubmit={this.onSubmitForm}>
+            <Form onSubmit={this.props.handleSubmit(this.onSubmitForm)}>
               <Header sub color="teal" content="Event Details" />
               <Field
                 name="title"
@@ -126,6 +121,7 @@ export default connect(
   actions
 )(
   reduxForm({
-    form: "eventForm"
+    form: "eventForm",
+    enableReinitialize: true,
   })(EventForm)
 );
