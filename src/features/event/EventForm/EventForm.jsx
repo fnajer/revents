@@ -61,7 +61,7 @@ const category = [
 class EventForm extends Component {
   state = {
     cityLatLng: {},
-    vanueLatLng: {},
+    venueLatLng: {},
     scriptLoaded: false,
   }
 
@@ -84,8 +84,22 @@ class EventForm extends Component {
       });
   }
 
+  handleSelectVenue = selectedVenue => {
+    geocodeByAddress(selectedVenue)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        this.setState({
+          venueLatLng: latLng,
+        });
+      })
+      .then(() => {
+        this.props.change('venue', selectedVenue);
+      });
+  }
+
   onSubmitForm = values => {
     values.date = moment(values.date).format();
+    values.venueLatLng = this.state.venueLatLng;
 
     if (this.props.initialValues.id) {
       this.props.updateEvent(values);
@@ -152,6 +166,7 @@ class EventForm extends Component {
                     radius: 1000,
                   }}
                   placeholder="Event Venue"
+                  onSelect={this.handleSelectVenue}
                 />
               }
               <Field
