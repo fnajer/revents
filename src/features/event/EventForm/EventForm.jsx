@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
-import { createValidators, composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate'
+import { createValidators, composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate';
+import moment from 'moment';
 import cuid from "cuid";
 
 import { createEvent, updateEvent } from "../eventsActions";
@@ -40,6 +41,7 @@ const validate = combineValidators({
   )(),
   city: isRequired('City'),
   venue: isRequired('Venue'),
+  date: isRequired('Date'),
 });
 
 const category = [
@@ -53,7 +55,7 @@ const category = [
 
 class EventForm extends Component {
   onSubmitForm = values => {
-    console.log(values)
+    values.date = moment(values.date).format();
 
     if (this.props.initialValues.id) {
       this.props.updateEvent(values);
@@ -114,7 +116,7 @@ class EventForm extends Component {
                 name="date"
                 component={DateInput}
                 placeholder="Date and Time start event"
-                dateFormat="YYYY/MM/DD HH:mm"
+                dateFormat="YYYY-MM-DD HH:mm"
                 timeFormat="HH:mm"
                 showTimeSelect
               />
