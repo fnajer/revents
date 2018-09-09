@@ -9,8 +9,10 @@ import "./index.css";
 import ScrollToTop from "./app/common/util/ScrollToTop";
 import App from "./app/layout/App";
 import registerServiceWorker from "./registerServiceWorker";
+import { loadEvents } from './features/event/eventsActions';
 
 const store = configureStore();
+store.dispatch(loadEvents());
 
 const rootEl = document.getElementById("root");
 
@@ -29,7 +31,6 @@ let render = () => {
 
 if (module.hot) {
   module.hot.accept("./app/layout/App", () => {
-    console.log(1222);
     setTimeout(render);
   });
 }
