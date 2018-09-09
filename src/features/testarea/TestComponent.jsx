@@ -7,16 +7,17 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import Script from 'react-load-script';
 
-import { incrementCounter, decrementCounter } from './testActions';
+import { incrementAsync, decrementAsync } from './testActions';
 import { openModal } from '../modal/modalActions'
 
 const mapState = (state) => ({
   data: state.test.data,
+  loading: state.test.loading
 });
 
 const actions = {
-  incrementCounter,
-  decrementCounter,
+  incrementAsync,
+  decrementAsync,
   openModal,
 };
 
@@ -56,7 +57,7 @@ class TestComponent extends Component {
       value: this.state.address,
       onChange: this.onChange,
     }
-    const { data, incrementCounter, decrementCounter, openModal } = this.props;
+    const { data, incrementAsync, decrementAsync, openModal, loading } = this.props;
     return (
       <div>
         {/* <Script
@@ -64,8 +65,8 @@ class TestComponent extends Component {
           onLoad={this.handleScriptLoad}
         /> */}
         <h1>Test {data}</h1>
-        <Button onClick={incrementCounter} color="green" content="Increment" />
-        <Button onClick={decrementCounter} color="red" content="Decrement" />
+        <Button loading={loading} onClick={incrementAsync} color="green" content="Increment" />
+        <Button loading={loading} onClick={decrementAsync} color="red" content="Decrement" />
         <Button onClick={() => openModal('TestModal', {data: 33})} color="blue" content="TestModal" />
         <br />
         <form onSubmit={this.handleFormSubmit}>

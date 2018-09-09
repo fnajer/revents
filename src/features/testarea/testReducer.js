@@ -1,23 +1,44 @@
-import { createReducer } from '../../app/common/util/reducerUtil';
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from "./testConstants";
+import { createReducer } from "../../app/common/util/reducerUtil";
+import {
+  INCREMENT_COUNTER,
+  DECREMENT_COUNTER,
+  COUNTER_ACTION_STARTED,
+  COUNTER_ACTION_FINISHED
+} from "./testConstants";
 
 const initialState = {
   data: 22,
+  loading: false
 };
 
 export const incrementCounter = (state, payload) => {
   return {
     ...state,
-    data: state.data + 1,
-  }
+    data: state.data + 1
+  };
 };
 
 export const decrementCounter = (state, payload) => {
   return {
     ...state,
-    data: state.data - 1,
-  }
+    data: state.data - 1
+  };
 };
+
+export const counterActionsStarted = (state, payload) => {
+  return {
+    ...state,
+    loading: true
+  };
+};
+
+export const counterActionsFinished = (state, payload) => {
+  return {
+    ...state,
+    loading: false
+  };
+};
+
 // const testReducer = (state = initialState, action) => {
 //   switch (action.type) {
 //     case INCREMENT_COUNTER:
@@ -38,4 +59,6 @@ export const decrementCounter = (state, payload) => {
 export default createReducer(initialState, {
   [INCREMENT_COUNTER]: incrementCounter,
   [DECREMENT_COUNTER]: decrementCounter,
+  [COUNTER_ACTION_STARTED]: counterActionsStarted,
+  [COUNTER_ACTION_FINISHED]: counterActionsFinished
 });
