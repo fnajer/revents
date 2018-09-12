@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Segment, Grid, Icon, Button } from "semantic-ui-react";
+import format from 'date-fns/format';
+
 import EventDetailedMap from "./EventDetailedMap";
 
 export class EventDetailedInfo extends Component {
@@ -33,7 +35,7 @@ export class EventDetailedInfo extends Component {
               <Icon name="calendar" size="large" color="teal" />
             </Grid.Column>
             <Grid.Column width={15}>
-              <span>{event.date}</span>
+              <span>{format(event.date, 'dddd do MMMM')} at {format(event.date, 'HH:mm')}</span>
             </Grid.Column>
           </Grid>
         </Segment>
