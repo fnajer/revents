@@ -9,6 +9,12 @@ export class EventDetailedInfo extends Component {
     showMap: false
   };
 
+  componentWillUnmount() {
+    this.setState({
+      showMap: false,
+    });
+  }
+
   toogleShowMap = () => {
     this.setState(prevProps => ({
       showMap: !prevProps.showMap
