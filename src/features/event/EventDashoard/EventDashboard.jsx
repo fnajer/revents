@@ -23,7 +23,7 @@ class EventDashboard extends Component {
 
   render() {
     const { events, loading } = this.props;
-    if (loading) return <LoadingComponent />
+    if (loading) return <LoadingComponent inverted="true" />
     return (
       <Grid>
         <Grid.Column width={10}>
