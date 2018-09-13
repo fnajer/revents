@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
-import { createValidators, composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate';
+import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate';
 import moment from 'moment';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Script from 'react-load-script';
