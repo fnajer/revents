@@ -11,10 +11,8 @@ import ScrollToTop from "./app/common/util/ScrollToTop";
 import ReduxToastr from 'react-redux-toastr';
 import App from "./app/layout/App";
 import registerServiceWorker from "./registerServiceWorker";
-import { loadEvents } from './features/event/eventsActions';
 
 const store = configureStore();
-store.dispatch(loadEvents());
 
 const rootEl = document.getElementById("root");
 
