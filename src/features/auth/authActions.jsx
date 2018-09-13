@@ -1,3 +1,4 @@
+import { SubmissionError } from 'redux-form';
 import { SIGN_OUT_USER } from './authConstants';
 import { closeModal } from '../modal/modalActions';
 
@@ -9,6 +10,10 @@ export const loginUser = (creds) => {
       dispatch(closeModal());
     } catch (error) {
       console.log(error);
+      
+      throw new SubmissionError({
+        _error: error.message,
+      });
     }
   }
 }
