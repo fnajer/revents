@@ -8,15 +8,12 @@ import { openModal } from '../../modal/modalActions';
 import SignedInMenu from '../Menus/SignedInMenu';
 import SignedOutMenu from '../Menus/SignedOutMenu';
 
-import { logoutUser } from '../../auth/authActions';
-
 const mapState = (state) => ({
   auth: state.firebase.auth,
 });
 
 const actions = {
   openModal,
-  logoutUser,
 };
 
 class NavBar extends Component {
