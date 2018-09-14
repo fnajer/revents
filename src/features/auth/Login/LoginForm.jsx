@@ -6,13 +6,14 @@ import { Field, reduxForm } from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
-import { loginUser } from '../authActions';
+import { loginUser, socialLogin } from '../authActions';
 
 const actions = {
   loginUser,
+  socialLogin,
 };
 
-const LoginForm = ({ loginUser, handleSubmit, error }) => {
+const LoginForm = ({ loginUser, handleSubmit, error, socialLogin }) => {
   return (
     <Form size="large" onSubmit={handleSubmit(loginUser)}>
       <Segment>
@@ -35,7 +36,7 @@ const LoginForm = ({ loginUser, handleSubmit, error }) => {
           Login
         </Button>
         <Divider horizontal>Or</Divider>
-        <SocialLogin/>
+        <SocialLogin socialLogin={socialLogin}/>
       </Segment>
     </Form>
   );
