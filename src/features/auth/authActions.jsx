@@ -8,8 +8,6 @@ export const loginUser = (creds) => {
       await firebase.auth().signInWithEmailAndPassword(creds.email, creds.password);
       dispatch(closeModal());
     } catch (error) {
-      console.log(error);
-      
       throw new SubmissionError({
         _error: error.message,
       });
@@ -36,6 +34,8 @@ export const registerUser = user => async (dispatch, getState, { getFirebase, ge
     await firestore.set(`users/${createdUser.uid}`, {...newUser});
     dispatch(closeModal());
   } catch (error) {
-    console.log(error);
+    throw new SubmissionError({
+      _error: error.message,
+    });
   }
 };
