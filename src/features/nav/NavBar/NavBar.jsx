@@ -10,6 +10,7 @@ import SignedOutMenu from '../Menus/SignedOutMenu';
 
 const mapState = (state) => ({
   auth: state.firebase.auth,
+  profile: state.firebase.profile,
 });
 
 const actions = {
@@ -32,7 +33,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { auth } = this.props;
+    const { auth, profile } = this.props;
     const authenticated = auth.isLoaded && !auth.isEmpty;
     return (
       <Menu inverted fixed="top">
@@ -55,7 +56,7 @@ class NavBar extends Component {
           }
           {
             authenticated ? (
-              <SignedInMenu signOut={this.handleSignOut} auth={auth} />
+              <SignedInMenu signOut={this.handleSignOut} profile={profile} />
             ) : (
               <SignedOutMenu signIn={this.handleSignIn} register={this.handleRegister} />
             )
