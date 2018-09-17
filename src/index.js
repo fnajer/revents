@@ -11,6 +11,7 @@ import ScrollToTop from "./app/common/util/ScrollToTop";
 import ReduxToastr from 'react-redux-toastr';
 import App from "./app/layout/App";
 import registerServiceWorker from "./registerServiceWorker";
+import firebase from "./app/config/firebase";
 
 const store = configureStore();
 
@@ -39,6 +40,9 @@ if (module.hot) {
     setTimeout(render);
   });
 }
-render();
+
+store.firebaseAuthIsReady.then(() => {
+  render();
+});
 
 registerServiceWorker();
