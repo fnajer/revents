@@ -11,8 +11,8 @@ export const updateProfile = user => async (
 
   // that date will be proper update, and wont try update, if dates equally
   const secondsInFirebase = getState().firebase.profile.dateOfBirth && getState().firebase.profile.dateOfBirth.seconds;
-
-  if (updatedUser.dateOfBirth.seconds !== secondsInFirebase) {
+  const secondsOnClient = updatedUser.dateOfBirth && updatedUser.dateOfBirth.seconds;
+  if (secondsOnClient !== secondsInFirebase) {
     updatedUser.dateOfBirth = moment(updatedUser.dateOfBirth).toDate();
   }
 
