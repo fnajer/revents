@@ -10,11 +10,29 @@ import {
   Icon
 } from "semantic-ui-react";
 import Dropzone from 'react-dropzone';
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
 
 class PhotosPage extends Component {
   state = {
     files: [],
     fileName: '',
+    cropResult: null,
+    image: {},
+  }
+
+  cropImage = () => {
+    if (typeof this.refs.cropper.getCroppedCanvas() === 'undefined') { //or undefined? not string
+      return;
+    }
+
+    this.refs.cropper.getCroppedCanvas().toBlob(blob => {
+      let imageUrl = URL.createObjectURL(blob);
+      this.setState({
+        cropResult: imageUrl,
+        image: blob,
+      });
+    }, 'image/jpeg');
   }
 
   onDrop = files => {
@@ -42,13 +60,29 @@ class PhotosPage extends Component {
           <Grid.Column width={1} />
           <Grid.Column width={4}>
             <Header sub color="teal" content="Step 2 - Resize image" />
+            {
+              this.state.files[0] &&
+              <Cropper
+                style={{height: 200, width: '100%'}}
+                ref='cropper'
+                src={this.state.files[0].preview}
+                aspectRatio={1}
+                viewMode={0}
+                dragMode='move'
+                scalable={true}
+                guides={false}
+                cropBoxMovable={true}
+                cropBoxResizable={true}
+                crop={this.cropImage}
+              />
+            }
           </Grid.Column>
           <Grid.Column width={1} />
           <Grid.Column width={4}>
             <Header sub color="teal" content="Step 3 - Preview and Upload" />
             {
               this.state.files[0] &&
-              <Image style={{minHeight: '200px', minWidth: '200px'}} src={this.state.files[0].preview}/>
+              <Image style={{minHeight: '200px', minWidth: '200px'}} src={this.state.cropResult}/>
             }
           </Grid.Column>
         </Grid>
