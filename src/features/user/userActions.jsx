@@ -23,3 +23,23 @@ export const updateProfile = user => async (
     console.log(error);
   }
 };
+
+export const updateProfileImage = (file, filename) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  const user = firebase.auth().currentUser; //not async await
+  const path = `${user.uid}/user_images`;
+  const options = {
+    name: filename,
+  };
+
+  try {
+
+  } catch (error) {
+    console.log(error);
+  }
+};
