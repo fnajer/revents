@@ -38,8 +38,32 @@ export const updateProfileImage = (file, filename) => async (
   };
 
   try {
-
+    // Upload the file to firebase storage
+    let uploadedFile = await firebase.uploadFile(path, file, null, options);
+    // get url of image
+    let downloadURL = await uploadedFile.uploadTaskSnapshot.downloadURL;
+    // get userdoc
+    let userDoc = await firestore.get(`users/${user.uid}`);
+    // check if user has photo, if not update profile with new image
+    if (!userDoc.data().photoURL) {
+      await firebase.updateProfile({
+        photoURL: downloadURL,
+      });
+      await firebase.updateProfile({
+        photoURL: downloadURL,
+      });
+    }
+    // add the new photo to photos collection
+    return firestore.add({
+      collection: 'users',
+      doc: user.uid,
+      subcollections: [{collection: 'photos'}],
+    }, {
+      name: filename,
+      url: downloadURL,
+    });
   } catch (error) {
     console.log(error);
+    throw new Error('Problem uploading photo');
   }
 };
