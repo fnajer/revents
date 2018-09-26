@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import {
   Image,
   Segment,
@@ -19,6 +21,22 @@ import { updateProfileImage } from '../userActions';
 
 const actions = {
   updateProfileImage,
+};
+
+const mapState = (state) => ({
+  auth: state.firebase.auth,
+  profile: state.firebase.profile,
+});
+
+const query = ({auth}) => {
+  return [
+    {
+      collection: 'users',
+      doc: auth.uid,
+      subcollections: [{collection: 'photos'}],
+      storeAs: 'photos',
+    }
+  ];
 };
 
 class PhotosPage extends Component {
@@ -142,4 +160,7 @@ class PhotosPage extends Component {
   }
 }
 
-export default connect(null, actions)(PhotosPage);
+export default compose(
+  connect(mapState, actions),
+  firestoreConnect(auth => query(auth)),
+)(PhotosPage);
