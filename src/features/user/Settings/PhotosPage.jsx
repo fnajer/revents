@@ -17,10 +17,11 @@ import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
-import { updateProfileImage } from '../userActions';
+import { updateProfileImage, deletePhoto } from '../userActions';
 
 const actions = {
   updateProfileImage,
+  deletePhoto,
 };
 
 const mapState = (state) => ({
@@ -55,6 +56,14 @@ class PhotosPage extends Component {
       toastr.success('Success', 'Photo has been uploaded');
     } catch (error) {
       toastr.error('Oops', error.message);
+    }
+  }
+
+  handlePhotoDelete = (photo) => async () => {
+    try {
+      await this.props.deletePhoto(photo);
+    } catch (error) {
+      toastr('Oops', error.message);
     }
   }
 
@@ -163,7 +172,7 @@ class PhotosPage extends Component {
                   <Button basic color="green">
                     Main
                   </Button>
-                  <Button basic icon="trash" color="red" />
+                  <Button onClick={this.handlePhotoDelete(photo)} basic icon="trash" color="red" />
                 </div>
               </Card>
             ))
