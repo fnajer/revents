@@ -10,7 +10,7 @@ import {
   Card,
   Icon
 } from "semantic-ui-react";
-import toastr from 'react-redux-toastr';
+import { toastr } from 'react-redux-toastr';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
@@ -31,7 +31,7 @@ class PhotosPage extends Component {
 
   uploadImage = async () => {
     try {
-      await updateProfileImage(this.state.image, this.state.filename);
+      await this.props.updateProfileImage(this.state.image, this.state.fileName);
       this.closeProp();
       toastr.success('Success', 'Photo has been uploaded');
     } catch (error) {

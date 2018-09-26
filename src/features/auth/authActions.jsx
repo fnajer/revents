@@ -54,7 +54,7 @@ export const socialLogin = selectedProvider => async (dispatch, getState, { getF
       firestore.set(`users/${user.user.uid}`, {
         displayName: user.profile.displayName,
         createdAt: firestore.FieldValue.serverTimestamp(),
-        photoUrl: user.profile.avatarUrl,
+        photoURL: user.profile.avatarUrl,
       });
     }
   } catch (error) {

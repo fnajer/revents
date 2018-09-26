@@ -24,7 +24,7 @@ export const updateProfile = user => async (
   }
 };
 
-export const updateProfileImage = (file, filename) => async (
+export const updateProfileImage = (file, fileName) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -34,7 +34,7 @@ export const updateProfileImage = (file, filename) => async (
   const user = firebase.auth().currentUser; //not async await
   const path = `${user.uid}/user_images`;
   const options = {
-    name: filename,
+    name: fileName,
   };
 
   try {
@@ -44,23 +44,24 @@ export const updateProfileImage = (file, filename) => async (
     let downloadURL = await uploadedFile.uploadTaskSnapshot.downloadURL;
     // get userdoc
     let userDoc = await firestore.get(`users/${user.uid}`);
+    console.log(userDoc.data().photoURL);
     // check if user has photo, if not update profile with new image
     if (!userDoc.data().photoURL) {
       await firebase.updateProfile({
         photoURL: downloadURL,
       });
-      await firebase.updateProfile({
+      await user.updateProfile({
         photoURL: downloadURL,
       });
     }
     // add the new photo to photos collection
-    return firestore.add({
+    return await firestore.add({
       collection: 'users',
       doc: user.uid,
-      subcollections: [{collection: 'photos'}],
+      subcollections: [{collection: 'photos'}]
     }, {
-      name: filename,
-      url: downloadURL,
+      name: fileName,
+      url: downloadURL 
     });
   } catch (error) {
     console.log(error);
