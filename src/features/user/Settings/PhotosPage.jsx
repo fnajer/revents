@@ -29,6 +29,7 @@ const mapState = (state) => ({
   auth: state.firebase.auth,
   profile: state.firebase.profile,
   photos: state.firestore.ordered.photos,
+  loading: state.async.loading,
 });
 
 const query = ({auth}) => {
@@ -105,7 +106,7 @@ class PhotosPage extends Component {
   }
 
   render() {
-    const { photos, profile } = this.props;
+    const { photos, profile, loading } = this.props;
     let filteredPhotos;
     if (photos) {
       filteredPhotos = photos.filter(photo => {
@@ -155,8 +156,8 @@ class PhotosPage extends Component {
               <div>
                 <Image style={{minHeight: '200px', minWidth: '200px'}} src={this.state.cropResult}/>
                 <Button.Group>
-                  <Button onClick={this.uploadImage} style={{width: '100px'}} positive icon='check'/>
-                  <Button onClick={this.closeProp} style={{width: '100px'}} positive icon='close'/>
+                  <Button loading={loading} onClick={this.uploadImage} style={{width: '100px'}} positive icon='check'/>
+                  <Button disabled={loading} onClick={this.closeProp} style={{width: '100px'}} positive icon='close'/>
                 </Button.Group>
               </div>
             }
