@@ -17,11 +17,12 @@ import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
-import { updateProfileImage, deletePhoto } from '../userActions';
+import { updateProfileImage, deletePhoto, setMainPhoto } from '../userActions';
 
 const actions = {
   updateProfileImage,
   deletePhoto,
+  setMainPhoto,
 };
 
 const mapState = (state) => ({
@@ -62,6 +63,14 @@ class PhotosPage extends Component {
   handlePhotoDelete = (photo) => async () => {
     try {
       await this.props.deletePhoto(photo);
+    } catch (error) {
+      toastr('Oops', error.message);
+    }
+  }
+
+  handleSetMainPhoto = photo => async () => { // need async await or no? in internal function need. But this?
+    try {
+      await this.props.setMainPhoto(photo);
     } catch (error) {
       toastr('Oops', error.message);
     }
@@ -169,7 +178,7 @@ class PhotosPage extends Component {
               <Card key={photo.id}>
                 <Image src={photo.url} />
                 <div className="ui two buttons">
-                  <Button basic color="green">
+                  <Button onClick={this.handleSetMainPhoto(photo)} basic color="green">
                     Main
                   </Button>
                   <Button onClick={this.handlePhotoDelete(photo)} basic icon="trash" color="red" />
