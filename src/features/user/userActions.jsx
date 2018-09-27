@@ -1,6 +1,7 @@
 import moment from "moment";
 import cuid from 'cuid';
 import { toastr } from "react-redux-toastr";
+import { asyncActionStart, asyncActionFinish, asyncActionError } from '../async/asyncActions';
 
 export const updateProfile = user => async (
   dispatch,
@@ -30,6 +31,8 @@ export const updateProfileImage = (file, fileName) => async (
   getState,
   { getFirebase, getFirestore }
 ) => {
+  dispatch(asyncActionStart());
+
   const firebase = getFirebase();
   const firestore = getFirestore();
 
@@ -58,7 +61,7 @@ export const updateProfileImage = (file, fileName) => async (
       });
     }
     // add the new photo to photos collection
-    return await firestore.add({
+    await firestore.add({
       collection: 'users',
       doc: user.uid,
       subcollections: [{collection: 'photos'}]
@@ -66,8 +69,11 @@ export const updateProfileImage = (file, fileName) => async (
       name: imageName,
       url: downloadURL 
     });
+
+    dispatch(asyncActionFinish());
   } catch (error) {
     console.log(error);
+    dispatch(asyncActionError());
     throw new Error('Problem uploading photo');
   }
 };
