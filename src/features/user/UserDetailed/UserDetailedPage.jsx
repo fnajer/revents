@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import {
   Button,
   Card,
@@ -11,6 +14,25 @@ import {
   Menu,
   Segment
 } from "semantic-ui-react";
+
+const query = ({auth}) => {
+  return [
+    {
+      collection: 'users',
+      doc: auth.uid,
+      subcollections: [{collection: 'photos'}],
+      storeAs: 'photos',
+    }
+  ];
+};
+
+const actions = {
+
+};
+
+const mapState = (state) => ({
+
+});
 
 class UserDetailedPage extends Component {
   render() {
@@ -129,4 +151,7 @@ class UserDetailedPage extends Component {
   }
 }
 
-export default UserDetailedPage;
+export default compose(
+  connect(mapState, actions),
+  firestoreConnect(auth => query(auth)),
+)(UserDetailedPage);
