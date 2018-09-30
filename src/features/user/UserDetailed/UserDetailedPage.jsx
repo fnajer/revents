@@ -15,6 +15,8 @@ import {
   Segment
 } from "semantic-ui-react";
 
+import UserDetailedHeader from './UserDetailedHeader';
+
 const query = ({auth}) => {
   return [
     {
@@ -38,26 +40,7 @@ class UserDetailedPage extends Component {
   render() {
     return (
       <Grid>
-        <Grid.Column width={16}>
-          <Segment>
-            <Item.Group>
-              <Item>
-                <Item.Image
-                  avatar
-                  size="small"
-                  src="https://randomuser.me/api/portraits/men/20.jpg"
-                />
-                <Item.Content verticalAlign="bottom">
-                  <Header as="h1">First Name</Header>
-                  <br />
-                  <Header as="h3">Occupation</Header>
-                  <br />
-                  <Header as="h3">27, Lives in London, UK</Header>
-                </Item.Content>
-              </Item>
-            </Item.Group>
-          </Segment>
-        </Grid.Column>
+        <UserDetailedHeader />
         <Grid.Column width={12}>
           <Segment>
             <Grid columns={2}>
