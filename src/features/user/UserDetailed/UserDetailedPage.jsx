@@ -17,6 +17,7 @@ import {
 
 import UserDetailedHeader from './UserDetailedHeader';
 import UserDetailedDescription from './UserDetailedDescription';
+import UserDetailedPhotos from "./UserDetailedPhotos";
 
 const query = ({auth}) => {
   return [
@@ -48,18 +49,7 @@ class UserDetailedPage extends Component {
           </Segment>
         </Grid.Column>
 
-        <Grid.Column width={12}>
-          <Segment attached>
-            <Header icon="image" content="Photos" />
-
-            <Image.Group size="small">
-              <Image src="https://randomuser.me/api/portraits/men/20.jpg" />
-              <Image src="https://randomuser.me/api/portraits/men/20.jpg" />
-              <Image src="https://randomuser.me/api/portraits/men/20.jpg" />
-              <Image src="https://randomuser.me/api/portraits/men/20.jpg" />
-            </Image.Group>
-          </Segment>
-        </Grid.Column>
+        <UserDetailedPhotos photos={photos} />
 
         <Grid.Column width={12}>
           <Segment attached>
