@@ -28,19 +28,18 @@ const query = ({auth}) => {
   ];
 };
 
-const actions = {
-
-};
-
 const mapState = (state) => ({
-
+  auth: state.firebase.auth,
+  profile: state.firebase.profile,
+  photos: state.firestore.ordered.photos,
 });
 
 class UserDetailedPage extends Component {
   render() {
+    const { profile, photos } = this.props;
     return (
       <Grid>
-        <UserDetailedHeader />
+        <UserDetailedHeader profile={profile}/>
         <Grid.Column width={12}>
           <Segment>
             <Grid columns={2}>
@@ -135,6 +134,6 @@ class UserDetailedPage extends Component {
 }
 
 export default compose(
-  connect(mapState, actions),
+  connect(mapState),
   firestoreConnect(auth => query(auth)),
 )(UserDetailedPage);
