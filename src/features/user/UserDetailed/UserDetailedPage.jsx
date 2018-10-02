@@ -18,6 +18,7 @@ import {
 import UserDetailedHeader from './UserDetailedHeader';
 import UserDetailedDescription from './UserDetailedDescription';
 import UserDetailedPhotos from "./UserDetailedPhotos";
+import UserDetailedSidebar from "./UserDetailedSidebar";
 
 const query = ({auth}) => {
   return [
@@ -43,12 +44,7 @@ class UserDetailedPage extends Component {
       <Grid>
         <UserDetailedHeader profile={profile}/>
         <UserDetailedDescription profile={profile}/>
-        <Grid.Column width={4}>
-          <Segment>
-            <Button color="teal" fluid basic content="Edit Profile" />
-          </Segment>
-        </Grid.Column>
-
+        <UserDetailedSidebar />
         <UserDetailedPhotos photos={photos} />
 
         <Grid.Column width={12}>
