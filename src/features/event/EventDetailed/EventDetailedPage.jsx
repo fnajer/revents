@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withFirestore } from "react-redux-firebase";
 
 import { Grid } from 'semantic-ui-react';
+import { toastr } from "react-redux-toastr";
 
 import EventDetailedHeader from './EventDetailedHeader';
 import EventDetailedInfo from './EventDetailedInfo';
@@ -24,10 +25,12 @@ const mapState = (state, ownProps) => {
 
 class EventDetailedPage extends Component {
   async componentDidMount() {
-    const {firestore, match} = this.props;
+    const {firestore, match, history} = this.props;
     let event = await firestore.get(`events/${match.params.id}`);
-    console.log(event);
-    
+    if (!event.exists) {
+      history.push('/events');
+      toastr.error('Sorry', 'Event not found');
+    }
   }
 
   render() {
