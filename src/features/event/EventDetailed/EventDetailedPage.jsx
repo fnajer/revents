@@ -10,16 +10,15 @@ import EventDetailedInfo from './EventDetailedInfo';
 import EventDetailedChat from './EventDetailedChat';
 import EventDetailedSidebar from './EventDetailedSidebar';
 
-const mapState = (state, ownProps) => {
-  const eventId = ownProps.match.params.id;
-
+const mapState = (state) => {
   let event = {};
-  if (eventId && state.events.length > 0) {
-    event = state.events.filter(event => event.id === eventId)[0];
+
+  if (state.firebase.ordered.events && state.firebase.ordered.events[0]) {
+    event = state.firebase.ordered.events[0];
   }
-  
+
   return {
-    event,
+    event
   };
 };
 
