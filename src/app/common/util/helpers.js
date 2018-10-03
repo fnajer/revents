@@ -3,6 +3,7 @@ import moment from "moment";
 export const createNewEvent = (user, photoURL, event) => {
   event.date = moment(event.date).toDate();
   return {
+    ...event,
     hostUid: user.uid,
     hostPhotoURL: photoURL || '/assets/user.png',
     created: Date.now(),
