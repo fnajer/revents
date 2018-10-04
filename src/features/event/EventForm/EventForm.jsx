@@ -3,6 +3,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
+import { withFirestore } from "react-redux-firebase";
+
 import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
 import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate';
 import moment from 'moment';
@@ -17,13 +19,11 @@ import SelectInput from "../../../app/common/form/SelectInput";
 import DateInput from "../../../app/common/form/DateInput";
 import PlaceInput from "../../../app/common/form/PlaceInput";
 
-const mapState = (state, ownProps) => {
-  const eventId = ownProps.match.params.id;
-
+const mapState = (state) => {
   let event = {};
 
-  if (eventId && state.events.length > 0) {
-    event = state.events.filter(event => event.id === eventId)[0];
+  if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
+    event = state.firestore.ordered.events[0];
   }
 
   return {
@@ -64,6 +64,11 @@ class EventForm extends Component {
     scriptLoaded: false,
   }
 
+  async componentDidMount() {
+    const { firestore, match } = this.props;
+    await firestore.get(`events/${match.params.id}`);
+  }
+
   handleLoadScript = () => {
     this.setState({
       scriptLoaded: true,
@@ -97,7 +102,6 @@ class EventForm extends Component {
   }
 
   onSubmitForm = values => {
-    values.date = moment(values.date).format();
     values.venueLatLng = this.state.venueLatLng;
 
     if (this.props.initialValues.id) {
@@ -183,7 +187,7 @@ class EventForm extends Component {
   }
 }
 
-export default connect(
+export default withFirestore(connect(
   mapState,
   actions
 )(
@@ -192,4 +196,4 @@ export default connect(
     enableReinitialize: true,
     validate,
   })(EventForm)
-);
+));
