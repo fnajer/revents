@@ -66,7 +66,12 @@ class EventForm extends Component {
 
   async componentDidMount() {
     const { firestore, match } = this.props;
-    await firestore.get(`events/${match.params.id}`);
+    let event = await firestore.get(`events/${match.params.id}`);
+    if (event.exists) {
+      this.setState({
+        venueLatLng: event.data().venueLatLng,
+      });
+    }
   }
 
   handleLoadScript = () => {
