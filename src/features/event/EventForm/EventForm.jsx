@@ -68,12 +68,12 @@ class EventForm extends Component {
 
   async componentDidMount() {
     const { firestore, match } = this.props;
-    let event = await firestore.get(`events/${match.params.id}`);
-    if (event.exists) {
-      this.setState({
-        venueLatLng: event.data().venueLatLng,
-      });
-    }
+    await firestore.setListener(`events/${match.params.id}`);
+    // if (event.exists) {
+    //   this.setState({
+    //     venueLatLng: event.data().venueLatLng,
+    //   });
+    // }
   }
 
   handleLoadScript = () => {
@@ -112,6 +112,9 @@ class EventForm extends Component {
     values.venueLatLng = this.state.venueLatLng;
 
     if (this.props.initialValues.id) {
+      if (Object.keys(values.venueLatLng).length === 0) {
+        values.venueLatLng = this.props.event.venueLatLng;
+      }
       this.props.updateEvent(values);
       this.props.history.goBack();
     } else {
