@@ -11,7 +11,7 @@ import moment from 'moment';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Script from 'react-load-script';
 
-import { createEvent, updateEvent } from "../eventsActions";
+import { createEvent, updateEvent, cancelToggle } from "../eventsActions";
 
 import TextInput from "../../../app/common/form/TextInput";
 import TextArea from "../../../app/common/form/TextArea";
@@ -27,13 +27,15 @@ const mapState = (state) => {
   }
 
   return {
-    initialValues: event
+    initialValues: event,
+    event
   };
 };
 
 const actions = {
   createEvent,
-  updateEvent
+  updateEvent,
+  cancelToggle,
 };
 
 const validate = combineValidators({
@@ -119,7 +121,7 @@ class EventForm extends Component {
   };
 
   render() {
-    const { invalid, submitting, pristine } = this.props;
+    const { invalid, submitting, pristine, event, cancelToggle } = this.props;
     return (
       <Grid>
         <Script
@@ -184,6 +186,13 @@ class EventForm extends Component {
               <Button onClick={this.props.history.goBack} type="button">
                 Cancel
               </Button>
+              <Button
+                onClick={() => cancelToggle(!event.cancelled, event.id)}
+                type='button'
+                color={event.cancelled ? 'green' : 'red'}
+                floated='right'
+                content={event.cancelled ? 'Reactivate Event' : 'Cancel Event'}
+              />
             </Form>
           </Segment>
         </Grid.Column>
