@@ -7,8 +7,6 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from '../async/
 import { fetchSampleData } from '../../app/data/mockApi';
 
 import { createNewEvent } from "../../app/common/util/helpers";
-import { withFirestore } from 'react-redux-firebase';
-
 
 export const fetchEvents = (events) => {
   return {
