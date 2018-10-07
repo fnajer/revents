@@ -7,6 +7,7 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from '../async/
 import { fetchSampleData } from '../../app/data/mockApi';
 
 import { createNewEvent } from "../../app/common/util/helpers";
+import { withFirestore } from 'react-redux-firebase';
 
 
 export const fetchEvents = (events) => {
@@ -92,3 +93,32 @@ export const loadEvents = () => {
     }
   };
 };
+
+export const goingToEvent = event =>
+  async (dispatch, getState, {getFirestore}) => {
+    const firestore = getFirestore();
+    const user = firestore.auth().currentUser;
+    const photoURL = getState().firebase.profile.photoURL;
+    const attendee = {
+      displayName: user.displayName,
+      joinDate: Date.now(),
+      photoURL: photoURL,
+      going: true,
+      host: false,
+    };
+    try {
+      await firestore.update(`events/${event.id}`, {
+        [`attendees.${user.uid}`]: attendee,
+      });
+      await firestore.set(`event_attendee/${event.id}_${user.uid}`, {
+        eventId: event.id,
+        userUid: user.uid,
+        eventDate: event.date,
+        host: false,
+      });
+      toastr.success('Success', 'You have signed up to the event');
+    } catch (error) {
+      console.log(error);
+      toastr.error('Oops', 'Connect to event failed');
+    }
+  }
