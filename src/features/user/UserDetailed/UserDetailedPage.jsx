@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect, isEmpty } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Grid } from "semantic-ui-react";
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 import UserDetailedHeader from './UserDetailedHeader';
 import UserDetailedDescription from './UserDetailedDescription';
@@ -29,13 +30,16 @@ const mapState = (state, ownProps) => {
     userUid,
     profile,
     photos: state.firestore.ordered.photos,
+    requesting: state.firestore.status.requesting,
   }
 };
 
 class UserDetailedPage extends Component {
   render() {
-    const { profile, photos, auth, match } = this.props;
+    const { profile, photos, auth, match, requesting } = this.props;
     const isCurrentUser = auth.uid === match.params.id;
+    const loading = Object.values(requesting).some(a => a === true);
+    if (loading) return <LoadingComponent inverted={true}/>
     return (
       <Grid>
         <UserDetailedHeader profile={profile}/>
