@@ -100,7 +100,7 @@ export const goingToEvent = event =>
     const attendee = {
       displayName: user.displayName,
       joinDate: Date.now(),
-      photoURL: photoURL,
+      photoURL: photoURL || '/assets/user.png',
       going: true,
       host: false,
     };
