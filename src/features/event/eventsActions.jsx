@@ -8,13 +8,6 @@ import { fetchSampleData } from '../../app/data/mockApi';
 
 import { createNewEvent } from "../../app/common/util/helpers";
 
-export const fetchEvents = (events) => {
-  return {
-    type: FETCH_EVENTS,
-    payload: events,
-  };
-};
-
 export const createEvent = (event) => {
   return async (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
@@ -68,29 +61,6 @@ export const cancelToggle = (cancelled, eventId) =>
       console.log(error);
     }
   }
-
-export const deleteEvent = (eventId) => {
-  return {
-    type: DELETE_EVENT,
-    payload: {
-      eventId,
-    },
-  };
-};
-
-export const loadEvents = () => {
-  return async dispatch => {
-    try {
-      dispatch(asyncActionStart());
-      let events = await fetchSampleData();
-      dispatch(fetchEvents(events));
-      dispatch(asyncActionFinish());
-    } catch (error) {
-      console.log(error);
-      dispatch(asyncActionError());
-    }
-  };
-};
 
 export const goingToEvent = event =>
   async (dispatch, getState, {getFirestore}) => {
