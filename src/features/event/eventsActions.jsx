@@ -4,7 +4,7 @@ import moment from "moment";
 import { DELETE_EVENT, FETCH_EVENTS } from './eventConstants';
 import { asyncActionStart, asyncActionFinish, asyncActionError } from '../async/asyncActions';
 
-import { fetchSampleData } from '../../app/data/mockApi';
+import firebase from "../../app/config/firebase";  
 
 import { createNewEvent } from "../../app/common/util/helpers";
 
@@ -104,5 +104,29 @@ export const cancelGoingToEvent = (event) =>
     } catch (error) {
       console.log(error);
       toastr.error('Oops', 'Something went wrong');
+    }
+  }
+
+export const getEventsForDashboard = () =>
+  async (dispatch, getState) => {
+    const today = new Date(Date.now());
+    const firestore = firebase.firestore();
+    const eventsQuery = firestore.collection('events').where('date', '>=', today);
+    try {
+      dispatch(asyncActionStart());
+      let querySnap = await eventsQuery.get();
+      let events = [];
+      
+      for (let i = 0; i < querySnap.docs.length; i++) {
+        let event = {...querySnap.docs[i].data(), id: querySnap.docs[i].id}
+        events.push(event);
+      }
+      dispatch({ type: FETCH_EVENTS, payload: {events}});
+      dispatch(asyncActionFinish());
+      console.log(events);
+      
+    } catch (error) {
+      dispatch(asyncActionError());
+      console.log(error);
     }
   }

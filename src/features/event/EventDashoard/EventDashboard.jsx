@@ -6,22 +6,26 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import EventActivity from '../EventActivity/EventActivity'
 
 import EventList from "../EventList/EventList";
-import {  } from '../eventsActions';
+import { getEventsForDashboard } from '../eventsActions';
 
 const mapState = state => ({
-  events: state.firestore.ordered.events,
+  events: state.events,
+  loading: state.async.loading,
 });
 
 const actions = {
-  
+  getEventsForDashboard
 };
 
 class EventDashboard extends Component {
 
+  componentDidMount() {
+    this.props.getEventsForDashboard();
+  }
+
   render() {
-    const { events } = this.props;
-    const loading = !isLoaded(events) || isEmpty(events);
-    // if (loading) return <LoadingComponent inverted={true} />
+    const { events, loading } = this.props;
+    if (loading) return <LoadingComponent inverted={true} />
     return (
       <Grid>
         <Grid.Column width={10}>
