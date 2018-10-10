@@ -118,7 +118,7 @@ export const setMainPhoto = photo => async (
 }
 
 export const getUserEvents = (userUid, activeTab) => 
-  (dispatch, getState) => {
+  async (dispatch, getState) => {
     dispatch(asyncActionStart());
     const firestore = firebase.firestore();
     const today = new Date(Date.now());
@@ -151,7 +151,7 @@ export const getUserEvents = (userUid, activeTab) =>
     }
 
     try {
-      let querySnap = query.get();
+      let querySnap = await query.get();
       console.log(querySnap);
 
       dispatch(asyncActionFinish());
