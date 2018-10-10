@@ -57,12 +57,16 @@ class EventDashboard extends Component {
 
   render() {
     const { loading } = this.props;
+    const { loadedEvents, moreEvents } = this.state;
     if (this.state.loadingInitial) return <LoadingComponent inverted={true} />
     return (
       <Grid>
         <Grid.Column width={10}>
           <EventList
-            events={this.state.loadedEvents}
+            events={loadedEvents}
+            getNextEvents={this.getNextEvents}
+            moreEvents={moreEvents}
+            loading={loading}
           />
           <Button loading={loading} onClick={this.getNextEvents} disabled={!this.state.moreEvents} content='More' color='green' floated='right'/>
         </Grid.Column>
