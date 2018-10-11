@@ -124,6 +124,8 @@ export const getUserEvents = (userUid, activeTab) =>
     const today = new Date(Date.now());
     let eventsRef = firestore.collection('event_attendee');
     let query;
+    console.log(activeTab);
+    
     switch (activeTab) {
       case 1: // past events
         query = eventsRef
