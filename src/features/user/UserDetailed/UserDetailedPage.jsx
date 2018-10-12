@@ -29,6 +29,8 @@ const mapState = (state, ownProps) => {
   return {
     auth: state.firebase.auth,
     userUid,
+    events: state.events,
+    eventsLoading: state.async.loading,
     profile,
     photos: state.firestore.ordered.photos,
     requesting: state.firestore.status.requesting,
@@ -45,7 +47,7 @@ class UserDetailedPage extends Component {
     //console.log(events);
   }
   render() {
-    const { profile, photos, auth, match, requesting } = this.props;
+    const { profile, photos, auth, match, requesting, events, eventsLoading } = this.props;
     const isCurrentUser = auth.uid === match.params.id;
     const loading = Object.values(requesting).some(a => a === true);
     if (loading) return <LoadingComponent inverted={true}/>
@@ -55,7 +57,7 @@ class UserDetailedPage extends Component {
         <UserDetailedDescription profile={profile}/>
         <UserDetailedSidebar isCurrentUser={isCurrentUser}/>
         <UserDetailedPhotos photos={photos} />
-        <UserDetailedEvents />
+        <UserDetailedEvents events={events} eventsLoading={eventsLoading}/>
       </Grid>
     );
   }
