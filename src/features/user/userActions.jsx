@@ -2,6 +2,7 @@ import moment from "moment";
 import cuid from 'cuid';
 import { toastr } from "react-redux-toastr";
 import { asyncActionStart, asyncActionFinish, asyncActionError } from '../async/asyncActions';
+import { FETCH_EVENTS } from "../event/eventConstants";
 import firebase from "../../app/config/firebase";
 
 export const updateProfile = user => async (
@@ -154,8 +155,14 @@ export const getUserEvents = (userUid, activeTab) =>
 
     try {
       let querySnap = await query.get();
-      console.log(querySnap);
+      let events = [];
 
+      for (let i = 0; i < querySnap.docs.length; i++) {
+        let event = await firestore.collection('events').doc(querySnap.docs[i].data().eventId).get();
+        events.push({...event.data(), id: event.id});
+      }
+      
+      dispatch({type: FETCH_EVENTS, payload: { events }});
       dispatch(asyncActionFinish());
     } catch (error) {
       console.log(error);
