@@ -5,9 +5,10 @@ import TextArea from "../../../app/common/form/TextArea";
 
 export class EventDetailedChatForm extends Component {
   handleCommentSubmit = values => {
-    const { eventId, addEventComment, reset } = this.props;
+    const { eventId, addEventComment, reset, closeForm } = this.props;
     addEventComment(eventId, values);
     reset();
+    closeForm();
   }
   render() {
     return (
