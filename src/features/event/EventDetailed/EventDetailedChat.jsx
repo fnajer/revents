@@ -27,7 +27,7 @@ export class EventDetailedChat extends Component {
 
   render() {
     const { eventId, addEventComment, eventChat } = this.props;
-    const { showReplyForm, selectedCommentId, handleCloseReplyForm } = this.state;
+    const { showReplyForm, selectedCommentId } = this.state;
     return (
       <div>
         <Segment
@@ -63,6 +63,7 @@ export class EventDetailedChat extends Component {
                           addEventComment={addEventComment}
                           form={`reply_${comment.id}`}
                           closeForm={this.handleCloseReplyForm}
+                          parentId={comment.id}
                         />
                       }
                     </Comment.Actions>
@@ -75,6 +76,7 @@ export class EventDetailedChat extends Component {
             eventId={eventId}
             addEventComment={addEventComment}
             form={'newComment'}
+            parentId={0}
           />
         </Segment>
       </div>
