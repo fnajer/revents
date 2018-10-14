@@ -23,4 +23,4 @@ export class EventDetailedChatForm extends Component {
   }
 }
 
-export default reduxForm({form: 'eventChat'})(EventDetailedChatForm);
+export default reduxForm({Fields: 'comment'})(EventDetailedChatForm);

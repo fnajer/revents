@@ -8,17 +8,19 @@ import EventDetailedChatForm from "./EventDetailedChatForm";
 export class EventDetailedChat extends Component {
   state = {
     showReplyForm: false,
+    selectedCommentId: null,
   }
 
-  handleOpenReplyForm = () => {
+  handleOpenReplyForm = (id) => () => {
     this.setState({
       showReplyForm: true,
+      selectedCommentId: id,
     });
   }
 
   render() {
     const { eventId, addEventComment, eventChat } = this.props;
-    const { showReplyForm } = this.state;
+    const { showReplyForm, selectedCommentId } = this.state;
     return (
       <div>
         <Segment
@@ -46,12 +48,13 @@ export class EventDetailedChat extends Component {
                     </Comment.Metadata>
                     <Comment.Text>{comment.text}</Comment.Text>
                     <Comment.Actions>
-                      <Comment.Action onClick={this.handleOpenReplyForm}>Reply</Comment.Action>
+                      <Comment.Action onClick={this.handleOpenReplyForm(comment.id)}>Reply</Comment.Action>
                       {
-                        showReplyForm &&
+                        showReplyForm && selectedCommentId === comment.id &&
                         <EventDetailedChatForm 
                           eventId={eventId}
-                          addEventComment={addEventComment} 
+                          addEventComment={addEventComment}
+                          form={`reply_${comment.id}`}
                         />
                       }
                     </Comment.Actions>
@@ -63,6 +66,7 @@ export class EventDetailedChat extends Component {
           <EventDetailedChatForm
             eventId={eventId}
             addEventComment={addEventComment}
+            form={'newComment'}
           />
         </Segment>
       </div>
