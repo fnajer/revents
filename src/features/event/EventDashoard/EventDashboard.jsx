@@ -8,9 +8,18 @@ import EventActivity from '../EventActivity/EventActivity'
 import EventList from "../EventList/EventList";
 import { getEventsForDashboard } from '../eventsActions';
 
+const query = [
+  {
+    collection: 'activity',
+    orderBy: ['timestamp', 'desc'],
+    limit: 5,
+  }
+];
+
 const mapState = state => ({
   events: state.events,
   loading: state.async.loading,
+  activities: state.firestore.ordered.activity,
 });
 
 const actions = {
@@ -56,7 +65,7 @@ class EventDashboard extends Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, activities } = this.props;
     const { loadedEvents, moreEvents } = this.state;
     if (this.state.loadingInitial) return <LoadingComponent inverted={true} />
     return (
@@ -70,7 +79,7 @@ class EventDashboard extends Component {
           />
         </Grid.Column>
         <Grid.Column width={6}>
-          <EventActivity/>
+          <EventActivity activities={activities}/>
         </Grid.Column>
         <Grid.Column width={10}>
           <Loader active={loading}/>
@@ -81,5 +90,5 @@ class EventDashboard extends Component {
 }
 
 export default connect(mapState, actions)(
-  firestoreConnect([{collection: 'events'}])(EventDashboard)
+  firestoreConnect(query)(EventDashboard)
 );

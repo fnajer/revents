@@ -1,15 +1,23 @@
 import React from 'react';
-import { Header, Segment, Sticky } from 'semantic-ui-react'
+import { Header, Segment, Sticky, Feed } from 'semantic-ui-react'
 
-const EventActivity = () => {
+import EventActivityItem from "./EventActivityItem";
+
+const EventActivity = ({ activities }) => {
   return (
     <Sticky offset={100}>
       <Header attached='top' content='Recent Activity'/>
       <Segment attached>
-        Recent Activity
+        <Feed>
+          {
+            activities && activities.map(activity => (
+              <EventActivityItem activity={activity} />
+            ))
+          }
+        </Feed>
       </Segment>
     </Sticky>
   )
 }
 
-export default EventActivity
+export default EventActivity;
