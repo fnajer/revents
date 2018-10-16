@@ -31,6 +31,7 @@ class EventDashboard extends Component {
     moreEvents: false,
     loadingInitial: true,
     loadedEvents: [],
+    contextRef: {},
   }
 
   async componentDidMount() {
@@ -64,22 +65,26 @@ class EventDashboard extends Component {
     }
   }
 
+  handleContextRef = contextRef => this.setState({contextRef})
+
   render() {
     const { loading, activities } = this.props;
-    const { loadedEvents, moreEvents } = this.state;
+    const { loadedEvents, moreEvents, contextRef } = this.state;
     if (this.state.loadingInitial) return <LoadingComponent inverted={true} />
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventList
-            events={loadedEvents}
-            getNextEvents={this.getNextEvents}
-            moreEvents={moreEvents}
-            loading={loading}
-          />
+          <div ref={this.handleContextRef}>
+            <EventList
+              events={loadedEvents}
+              getNextEvents={this.getNextEvents}
+              moreEvents={moreEvents}
+              loading={loading}
+            />
+          </div>
         </Grid.Column>
         <Grid.Column width={6}>
-          <EventActivity activities={activities}/>
+          <EventActivity activities={activities} contextRef={contextRef}/>
         </Grid.Column>
         <Grid.Column width={10}>
           <Loader active={loading}/>
