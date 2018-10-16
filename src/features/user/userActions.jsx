@@ -215,3 +215,25 @@ export const getUserEvents = (userUid, activeTab) =>
       dispatch(asyncActionError());
     }
   }
+
+  export const followUser = (userId) =>
+    async (dispatch, getState, { getFirebase, getFirestore }) => {
+      //const firestore = firebase.firestore();
+      const firebase = getFirebase();
+      const firestore = getFirestore();
+      const user = firebase.auth().currentUser;
+      console.log(user);
+      let userCard = {
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        city: user.city || 'unknow city',
+      };
+
+      await firestore.add({
+        collection: 'users',
+        doc: userId,
+        subcollections: [{collection: 'followers'}]
+      }, {
+        [user.uid]: userCard, 
+      });
+    }

@@ -12,7 +12,7 @@ import UserDetailedSidebar from "./UserDetailedSidebar";
 import UserDetailedEvents from "./UserDetailedEvents";
 
 import { userDetailedQueries } from "../userQueries";
-import { getUserEvents } from "../userActions";
+import { getUserEvents, followUser } from "../userActions";
 
 
 const mapState = (state, ownProps) => {
@@ -39,11 +39,16 @@ const mapState = (state, ownProps) => {
 
 const actions = {
   getUserEvents,
+  followUser,
 };
 
 class UserDetailedPage extends Component {
   async componentDidMount() {
     await this.props.getUserEvents(this.props.userUid);
+  }
+
+  handleFollowUser = async () => {
+    await this.props.followUser(this.props.userUid);
   }
 
   changeTab = (e, data) => {
@@ -59,7 +64,7 @@ class UserDetailedPage extends Component {
       <Grid>
         <UserDetailedHeader profile={profile}/>
         <UserDetailedDescription profile={profile}/>
-        <UserDetailedSidebar isCurrentUser={isCurrentUser}/>
+        <UserDetailedSidebar isCurrentUser={isCurrentUser} handleFollowUser={this.handleFollowUser} />
         <UserDetailedPhotos photos={photos} />
         <UserDetailedEvents events={events} eventsLoading={eventsLoading} changeTab={this.changeTab}/>
       </Grid>
