@@ -11,7 +11,7 @@ const EventActivity = ({ activities, contextRef }) => {
         <Feed>
           {
             activities && activities.map(activity => (
-              <EventActivityItem activity={activity} />
+              <EventActivityItem key={activity.id} activity={activity} />
             ))
           }
         </Feed>

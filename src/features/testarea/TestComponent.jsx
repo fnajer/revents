@@ -5,7 +5,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import Script from 'react-load-script';
+//import Script from 'react-load-script';
 
 import { incrementAsync, decrementAsync } from './testActions';
 import { openModal } from '../modal/modalActions'
